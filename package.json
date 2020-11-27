@@ -1,0 +1,10 @@
+{
+    "name": "com.mu777.myunityutils",
+    "displayName": "Mu777UnityUtils",
+    "version": "1.0.0",
+    "unity": "2019.1",
+    "description": "This is my hogehoge Package.",
+    "keywords": ["Script", "Test"],
+    "category": "Controllers",
+    "dependencies": { }
+}
