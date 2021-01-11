@@ -9,7 +9,7 @@ public class MeshUtils
     ///
     /// Normal is Vector3.up
     /// Origin is LeftUp Corner
-    /// 
+    ///
     /// example
     /// ```
     ///   meshFilter.sharedMesh = MeshUtils.BuildPlaneMesh(...);
@@ -22,7 +22,7 @@ public class MeshUtils
     /// <param name="vertexHeightNum"></param>
     /// <returns></returns>
     public static Mesh CreatePlaneMesh(Vector3 offset, float width, float height,
-                                int vertexWidthNum, int vertexHeightNum)
+                                       int vertexWidthNum, int vertexHeightNum)
     {
         Func<int[], bool, List<int>> divideSq2Tri = (square, isInv) =>
         {
@@ -42,33 +42,50 @@ public class MeshUtils
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
         var uv0s = new List<Vector2>();
+        var uv1s = new List<Vector2>();
         var normals = new List<Vector3>();
 
         var normal = Vector3.up;
         var stepW = width / vertexWidthNum;
         var stepH = height / vertexHeightNum;
 
-        for(var h = 0; h < vertexHeightNum; h++)
+        for(var h = 0; h <= vertexHeightNum; h++)
         {
-            for(var w = 0; w < vertexWidthNum; w++)
+            for(var w = 0; w <= vertexWidthNum; w++)
             {
                 vertices.Add(new Vector3(w * stepW, 0.0f, -h * stepH) + offset);
-                uv0s.Add(new Vector2(w, h));
+                uv0s.Add(new Vector2((float)w / (float)vertexWidthNum,
+                                     (float)h / (float)vertexHeightNum));
+                uv1s.Add(new Vector2(w, h));
                 normals.Add(normal);
 
-                if(h >= vertexHeightNum - 1 || w >= vertexWidthNum - 1)
+                if(w == 0 || h == 0)
                 {
                     continue;
                 }
-                var i = h * vertexWidthNum + w;
-                triangles.AddRange(divideSq2Tri(new int[] { i, i + 1, i + vertexWidthNum, i + vertexWidthNum + 1 },
+                var i = h * (vertexWidthNum + 1) + w;
+                triangles.AddRange(divideSq2Tri(new int[] { i - (vertexWidthNum + 1) - 1,
+                                                            i - (vertexWidthNum + 1),
+                                                            i - 1,
+                                                            i
+                                                          },
                                                 true));
+
+
+                //if(h >= vertexHeightNum - 1 || w >= vertexWidthNum - 1)
+                //{
+                //    continue;
+                //}
+                //var i = h * vertexWidthNum + w;
+                //triangles.AddRange(divideSq2Tri(new int[] { i, i + 1, i + vertexWidthNum, i + vertexWidthNum + 1 },
+                //                                true));
             }
         }
 
         mesh.SetVertices(vertices);
         mesh.SetIndices(triangles.ToArray(), MeshTopology.Triangles, 0);
         mesh.SetUVs(0, uv0s);
+        mesh.SetUVs(1, uv1s);
         mesh.SetNormals(normals);
         return mesh;
     }
