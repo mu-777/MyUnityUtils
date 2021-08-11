@@ -1,0 +1,17 @@
+{
+    "name": "Unity.com.mu-777.Editor",
+    "references": [
+        "GUID:4eb890a8267a7c248b26ae139a9b2eb4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
