@@ -43,13 +43,11 @@ public class CurclePosController : MonoBehaviour, IPointerDownHandler, IDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-        var origin = RectTransformUtility.WorldToScreenPoint(GetUICam(), _backgroundUI.position);
-        var inputPos = eventData.position - (origin / _canvas.scaleFactor);
+        var inputPos = eventData.position - (_backgroundUI.rect.center / _canvas.scaleFactor);
         if(inputPos.magnitude > _operatableRadiusPx)
         {
             return;
         }
-        Debug.Log($"{origin}, {eventData.position}, {inputPos}, {_canvas.scaleFactor}");
         SetPos(-Vector2.SignedAngle(Vector2.up, inputPos));
     }
 
