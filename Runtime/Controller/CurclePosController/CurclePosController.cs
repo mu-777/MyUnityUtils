@@ -43,7 +43,8 @@ public class CurclePosController : MonoBehaviour, IPointerDownHandler, IDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-        var inputPos = eventData.position - (_backgroundUI.rect.center / _canvas.scaleFactor);
+        var origin = _backgroundUI.anchoredPosition + _backgroundUI.rect.center;
+        var inputPos = eventData.position - (origin * _canvas.scaleFactor);
         if(inputPos.magnitude > _operatableRadiusPx)
         {
             return;
