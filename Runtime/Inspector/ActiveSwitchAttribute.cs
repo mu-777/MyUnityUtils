@@ -3,10 +3,10 @@ using UnityEditor;
 
 public class ActiveSwitchAttribute : PropertyAttribute
 {
-    public readonly bool IsActive;
-    public ActiveSwitchAttribute(bool isActive)
+    public readonly string FlagVariableName;
+    public ActiveSwitchAttribute(string flagVariableName)
     {
-        this.IsActive = isActive;
+        this.FlagVariableName = flagVariableName;
     }
 }
 
@@ -16,7 +16,9 @@ internal sealed class ActiveSwitchDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {     
         var attr = base.attribute as ActiveSwitchAttribute;
-        EditorGUI.BeginDisabledGroup(!attr.IsActive);
+        var flagProp = property.serializedObject.FindProperty(attr.FlagVariableName);
+        Debug.Log($"{flagProp.boolValue}, {flagProp.propertyType}, {flagProp.type}");
+        EditorGUI.BeginDisabledGroup(!flagProp.boolValue);
         EditorGUI.PropertyField(position, property, label);
         EditorGUI.EndDisabledGroup();
     }
