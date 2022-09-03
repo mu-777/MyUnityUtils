@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public class FlagBaseDisableAttribute : PropertyAttribute
+public class FlagConditionalDisableInInspectorAttribute : PropertyAttribute
 {
     public readonly string FlagVariableName;
     public readonly bool FalseThenDisable;
-    public FlagBaseDisableAttribute(string flagVariableName, bool falseThenDisable = true)
+    public FlagConditionalDisableInInspectorAttribute(string flagVariableName, bool falseThenDisable = true)
     {
         this.FlagVariableName = flagVariableName;
         this.FalseThenDisable = falseThenDisable;

@@ -6,7 +6,7 @@ public class ConditionalDisableAttrTest : MonoBehaviour
 {
     public bool flag = false;
 
-    [FlagBaseDisable("flag")]
+    [FlagConditionalDisableInInspector("flag")]
     public string flagControlledData = "a";
 
     [ConditionalDisableInInspector("flag")]
@@ -18,7 +18,7 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flagStr", "aaa")]
     public Vector3 strControlledData = Vector3.one;
 
-    [ConditionalDisableInInspector("flagStr", "aaa", false)]
+    [ConditionalDisableInInspector("flagStr", "aaa", equalThenActive: false)]
     public List<string> strControlledData2;
 
 
@@ -27,7 +27,7 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flagInt", 1)]
     public int intControlledData = 2;
 
-    public enum FlagEnum { A=0, B=1, C=2}
+    public enum FlagEnum { A = 0, B = 1, C = 2}
     public FlagEnum flagEnum = FlagEnum.A;
 
     [ConditionalDisableInInspector("flagEnum", (int)FlagEnum.A)]
@@ -41,7 +41,7 @@ public class ConditionalDisableAttrTest : MonoBehaviour
 
     [ConditionalDisableInInspector("flagFloat", 0f)]
     public float floatControlledData0;
-    [ConditionalDisableInInspector("flagFloat", 0f, false)]
+    [ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenActive: false)]
     public float floatControlledData0LessThan;
 
     [ConditionalDisableInInspector("flagFloat", 10f)]

@@ -5,12 +5,12 @@ using UnityEditor;
 
 using GetCondFunc = System.Func<UnityEditor.SerializedProperty, ConditionalDisableInInspectorAttribute, bool>;
 
-[CustomPropertyDrawer(typeof(FlagBaseDisableAttribute))]
-internal sealed class FlagBaseDisableDrawer : PropertyDrawer
+[CustomPropertyDrawer(typeof(FlagConditionalDisableInInspectorAttribute))]
+internal sealed class FlagConditionalDisableDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        var attr = base.attribute as FlagBaseDisableAttribute;
+        var attr = base.attribute as FlagConditionalDisableInInspectorAttribute;
         var prop = property.serializedObject.FindProperty(attr.FlagVariableName);
         if(prop == null)
         {
@@ -25,7 +25,7 @@ internal sealed class FlagBaseDisableDrawer : PropertyDrawer
 }
 
 [CustomPropertyDrawer(typeof(ConditionalDisableInInspectorAttribute))]
-internal sealed class ConditionalDisableInInspectorDrawer : PropertyDrawer
+internal sealed class ConditionalDisableDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
