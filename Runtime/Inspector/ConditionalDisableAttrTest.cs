@@ -9,6 +9,9 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [FlagConditionalDisableInInspector("flag")]
     public string flagControlledData = "a";
 
+    [FlagConditionalDisableInInspector("flag", conditionalInvisible: true)]
+    public string falseThenInvisible = "a";
+
     [ConditionalDisableInInspector("flag")]
     public Vector3 flagControlledData2 = Vector3.one;
 
@@ -33,7 +36,7 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flagEnum", (int)FlagEnum.A)]
     public int enumControlledDataA = 2;
 
-    [ConditionalDisableInInspector("flagEnum", (int)FlagEnum.B)]
+    [ConditionalDisableInInspector("flagEnum", (int)FlagEnum.B, conditionalInvisible: true)]
     public int enumControlledDataB = 2;
 
 

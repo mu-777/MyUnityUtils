@@ -18,7 +18,12 @@ internal sealed class FlagConditionalDisableDrawer : PropertyDrawer
             EditorGUI.PropertyField(position, property, label);
             EditorGUI.EndDisabledGroup();
         }
-        EditorGUI.BeginDisabledGroup(attr.FalseThenDisable ? !prop.boolValue : prop.boolValue);
+        var isDisable = attr.FalseThenDisable ? !prop.boolValue : prop.boolValue;
+        if(attr.ConditionalInvisible && isDisable)
+        {
+            return;
+        }
+        EditorGUI.BeginDisabledGroup(isDisable);
         EditorGUI.PropertyField(position, property, label);
         EditorGUI.EndDisabledGroup();
     }
@@ -35,17 +40,20 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         {
             Debug.LogError($"Not found '{attr.VariableName}' property");
             EditorGUI.PropertyField(position, property, label);
-            EditorGUI.EndDisabledGroup();
         }
-
         GetCondFunc disableCondFunc;
         if(!DisableCondFuncMap.TryGetValue(attr.VariableType, out disableCondFunc))
         {
             Debug.LogError($"{attr.VariableType} type is not supported");
             EditorGUI.PropertyField(position, property, label);
-            EditorGUI.EndDisabledGroup();
         }
-        EditorGUI.BeginDisabledGroup(disableCondFunc(condProp, attr));
+
+        var isDisable = disableCondFunc(condProp, attr);
+        if(attr.ConditionalInvisible && isDisable)
+        {
+            return;
+        }
+        EditorGUI.BeginDisabledGroup(isDisable);
         EditorGUI.PropertyField(position, property, label);
         EditorGUI.EndDisabledGroup();
     }
