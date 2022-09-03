@@ -10,15 +10,12 @@ internal sealed class FlagConditionalDisableDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        //Debug.Log($"SerializedPropertyType: {property.propertyType}, " +
-        //          $"label: {label.text}");
-
         var attr = base.attribute as FlagConditionalDisableInInspectorAttribute;
         var prop = property.serializedObject.FindProperty(attr.FlagVariableName);
         if(prop == null)
         {
             Debug.LogError($"Not found '{attr.FlagVariableName}' property");
-            EditorGUI.PropertyField(position, property, label);
+            EditorGUI.PropertyField(position, property, label, true);
             EditorGUI.EndDisabledGroup();
         }
         var isDisable = IsDisable(attr, prop);
@@ -67,7 +64,7 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
             return;
         }
         EditorGUI.BeginDisabledGroup(isDisable);
-        EditorGUI.PropertyField(position, property, label);
+        EditorGUI.PropertyField(position, property, label, true);
         EditorGUI.EndDisabledGroup();
     }
 
@@ -79,7 +76,7 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         {
             return -EditorGUIUtility.standardVerticalSpacing;
         }
-        return base.GetPropertyHeight(property, label);
+        return EditorGUI.GetPropertyHeight(property, true);
     }
 
     private bool IsDisable(ConditionalDisableInInspectorAttribute attr, SerializedProperty prop)
