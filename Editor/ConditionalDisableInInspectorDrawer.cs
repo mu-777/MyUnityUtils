@@ -37,10 +37,11 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
             EditorGUI.PropertyField(position, property, label);
             EditorGUI.EndDisabledGroup();
         }
+
         GetCondFunc disableCondFunc;
-        if(!DisableCondMap.TryGetValue(attr.VariableType, out disableCondFunc))
+        if(!DisableCondFuncMap.TryGetValue(attr.VariableType, out disableCondFunc))
         {
-            Debug.LogError($"'{attr.VariableName}' type is not {attr.VariableType}");
+            Debug.LogError($"{attr.VariableType} type is not supported");            
             EditorGUI.PropertyField(position, property, label);
             EditorGUI.EndDisabledGroup();
         }
@@ -49,7 +50,7 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         EditorGUI.EndDisabledGroup();
     }
 
-    private Dictionary<Type, GetCondFunc> DisableCondMap = new Dictionary<Type, GetCondFunc>()
+    private Dictionary<Type, GetCondFunc> DisableCondFuncMap = new Dictionary<Type, GetCondFunc>()
     {
         {
             typeof(bool), (prop, attr) =>
