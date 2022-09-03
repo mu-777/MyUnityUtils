@@ -41,7 +41,7 @@ internal sealed class FlagConditionalDisableDrawer : PropertyDrawer
 
     private bool IsDisable(FlagConditionalDisableInInspectorAttribute attr, SerializedProperty prop)
     {
-        return attr.FalseThenDisable ? !prop.boolValue : prop.boolValue;
+        return attr.TrueThenDisable ? prop.boolValue : !prop.boolValue;
     }
 }
 
@@ -96,28 +96,28 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         {
             typeof(bool), (prop, attr) =>
             {
-                return attr.FalseThenDisable ? !prop.boolValue : prop.boolValue;
+                return attr.TrueThenDisable ? !prop.boolValue : prop.boolValue;
             }
         },
         {
             typeof(string), (prop, attr) => {
-                return attr.FalseThenDisable
-                ? prop.stringValue != attr.ComparedStr
-                : prop.stringValue == attr.ComparedStr;
+                return attr.TrueThenDisable
+                ? prop.stringValue == attr.ComparedStr
+                : prop.stringValue != attr.ComparedStr;
             }
         },
         {
             typeof(int), (prop, attr) => {
-                return attr.FalseThenDisable
-                ? prop.intValue != attr.ComparedInt
-                : prop.intValue == attr.ComparedInt;
+                return attr.TrueThenDisable
+                ? prop.intValue == attr.ComparedInt
+                : prop.intValue != attr.ComparedInt;
             }
         },
         {
             typeof(float), (prop, attr) => {
-                return attr.FalseThenDisable
-                ? prop.floatValue > attr.ComparedFloat
-                : prop.floatValue <= attr.ComparedFloat;
+                return attr.TrueThenDisable
+                ? prop.floatValue <= attr.ComparedFloat
+                : prop.floatValue > attr.ComparedFloat;
             }
         }
     };

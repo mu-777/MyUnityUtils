@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class ConditionalDisableAttrTest : MonoBehaviour
 {
+    [System.Serializable]
+    public class TestStruct
+    {
+        public Vector3 p;
+        public Quaternion q;
+    }
+
     [Header("Flag control")]
     public bool flag = false;
 
     [FlagConditionalDisableInInspector("flag")]
     public string editableStrIfTrue = "a";
 
-    [FlagConditionalDisableInInspector("flag", falseThenDisable: false)]
+    [FlagConditionalDisableInInspector("flag", trueThenDisable: true)]
     public Rect editableRectIfFalse;
 
     [FlagConditionalDisableInInspector("flag", conditionalInvisible: true)]
-    public float invisibleFloatIfFalse = 0f;
+    public float visibleFloatIfTrue = 0f;
 
-    [FlagConditionalDisableInInspector("flag", falseThenDisable: false, conditionalInvisible: true)]
-    public Vector3 invisibleVec3IfTrue;
+    [FlagConditionalDisableInInspector("flag", trueThenDisable: true, conditionalInvisible: true)]
+    public TestStruct visibleStructIfFalse;
 
     // ---------
     [Header("Flag control2")]
@@ -26,14 +33,14 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flag2")]
     public string editableStrIfTrue2 = "a";
 
-    [ConditionalDisableInInspector("flag2", falseThenDisable: false)]
+    [ConditionalDisableInInspector("flag2", trueThenDisable: true)]
     public Rect editableRectIfFalse2;
 
     [ConditionalDisableInInspector("flag2", conditionalInvisible: true)]
-    public float invisibleFloatIfFalse2 = 0f;
+    public float visibleFloatIfTrue2 = 0f;
 
-    [FlagConditionalDisableInInspector("flag2", falseThenDisable: false, conditionalInvisible: true)]
-    public Vector3 invisibleVec3IfTrue2;
+    [ConditionalDisableInInspector("flag2", trueThenDisable: true, conditionalInvisible: true)]
+    public TestStruct visibleStructIfFalse2;
 
 
     // ---------
@@ -43,14 +50,14 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flagStr", "A")]
     public AnimationCurve editableAminCurveIfA;
 
-    [ConditionalDisableInInspector("flagStr", "A", equalThenActive: false)]
+    [ConditionalDisableInInspector("flagStr", "A", notEqualThenEnable: true)]
     public Vector2 editableVec2UnlessA;
 
     [ConditionalDisableInInspector("flagStr", "A", conditionalInvisible: true)]
-    public Quaternion invisibleQuatIfA;
+    public Quaternion visibleQuatIfA;
 
-    [ConditionalDisableInInspector("flagStr", "A", equalThenActive: false, conditionalInvisible: true)]
-    public int invisibleIntUnlessA;
+    [ConditionalDisableInInspector("flagStr", "A", notEqualThenEnable: true, conditionalInvisible: true)]
+    public int visibleIntUnlessA;
 
     // ---------
     [Header("Int control")]
@@ -59,17 +66,17 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flagInt", 1)]
     public string editableStrIf1;
 
-    [ConditionalDisableInInspector("flagInt", 1, equalThenActive: false)]
+    [ConditionalDisableInInspector("flagInt", 1, notEqualThenEnable: true)]
     public Gradient editableGradUnless1;
 
     [ConditionalDisableInInspector("flagInt", 1, conditionalInvisible: true)]
-    public Color invisibleColorIf1;
+    public Color visibleColorIf1;
 
-    [ConditionalDisableInInspector("flagInt", 1, equalThenActive: false, conditionalInvisible: true)]
-    public Bounds invisibleBoundsUnless1;
+    [ConditionalDisableInInspector("flagInt", 1, notEqualThenEnable: true, conditionalInvisible: true)]
+    public Bounds visibleBoundsUnless1;
 
     // ---------
-    public enum FlagEnum { A = 0, B = 1, C = 2 }
+    public enum FlagEnum { A, B, C }
     [Header("Enum control")]
     public FlagEnum flagEnum = FlagEnum.A;
 
@@ -90,14 +97,13 @@ public class ConditionalDisableAttrTest : MonoBehaviour
     [ConditionalDisableInInspector("flagFloat", 0f)]
     public GameObject editableGameObjIfOver0;
 
-    [ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenActive: false)]
+    [ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenEnable: false)]
     public FlagEnum editableEnumIfUnder0Or0;
 
     [ConditionalDisableInInspector("flagFloat", 0f, conditionalInvisible: true)]
     public List<float> invisibleListIfOver0;
 
-    [ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenActive: false, conditionalInvisible: true)]
-    public bool invisibleBoolIfUnder0Or0;
-
+    [ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenEnable: false, conditionalInvisible: true)]
+    public Vector3 invisibleVec3IfUnder0Or0;
 
 }
