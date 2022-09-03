@@ -41,7 +41,7 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         GetCondFunc disableCondFunc;
         if(!DisableCondFuncMap.TryGetValue(attr.VariableType, out disableCondFunc))
         {
-            Debug.LogError($"{attr.VariableType} type is not supported");            
+            Debug.LogError($"{attr.VariableType} type is not supported");
             EditorGUI.PropertyField(position, property, label);
             EditorGUI.EndDisabledGroup();
         }
