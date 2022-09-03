@@ -6,51 +6,65 @@ public class ConditionalDisableAttrTest : MonoBehaviour
 {
     public bool flag = false;
 
-    [FlagConditionalDisableInInspector("flag")]
-    public string flagControlledData = "a";
+    [FlagConditionalDisableInInspector("flag", conditionalInvisible: true)]
+    public string editableStrIfTrue = "a";
 
     [FlagConditionalDisableInInspector("flag", conditionalInvisible: true)]
-    public string falseThenInvisible = "a";
+    public Rect editableRectIfTrue;
 
-    [ConditionalDisableInInspector("flag")]
-    public Vector3 flagControlledData2 = Vector3.one;
+    [FlagConditionalDisableInInspector("flag", conditionalInvisible: true)]
+    public Vector4 editableVec4IfTrue;
 
+    [FlagConditionalDisableInInspector("flag", conditionalInvisible: true)]
+    public float editableFloatIfTrue = 0f;
 
-    public string flagStr = "aaa";
+    public int intFlag = 1;
 
-    [ConditionalDisableInInspector("flagStr", "aaa")]
-    public Vector3 strControlledData = Vector3.one;
+    //[FlagConditionalDisableInInspector("flag")]
+    //public string flagControlledData = "a";
 
-    [ConditionalDisableInInspector("flagStr", "aaa", equalThenActive: false)]
-    public List<string> strControlledData2;
+    ////[FlagConditionalDisableInInspector("flag")]
+    //public Vector4 falseThenInvisible;
 
-
-    public int flagInt = 1;
-
-    [ConditionalDisableInInspector("flagInt", 1)]
-    public int intControlledData = 2;
-
-    public enum FlagEnum { A = 0, B = 1, C = 2}
-    public FlagEnum flagEnum = FlagEnum.A;
-
-    [ConditionalDisableInInspector("flagEnum", (int)FlagEnum.A)]
-    public int enumControlledDataA = 2;
-
-    [ConditionalDisableInInspector("flagEnum", (int)FlagEnum.B, conditionalInvisible: true)]
-    public int enumControlledDataB = 2;
+    //[ConditionalDisableInInspector("flag", falseThenDisable: false)]
+    //public Vector3 flagControlledData2 = Vector3.one;
 
 
-    public float flagFloat = 1.0f;
+    //public string flagStr = "aaa";
 
-    [ConditionalDisableInInspector("flagFloat", 0f)]
-    public float floatControlledData0;
-    [ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenActive: false)]
-    public float floatControlledData0LessThan;
+    //[ConditionalDisableInInspector("flagStr", "aaa")]
+    //public Vector3 strControlledData = Vector3.one;
 
-    [ConditionalDisableInInspector("flagFloat", 10f)]
-    public float floatControlledData10;
+    //[ConditionalDisableInInspector("flagStr", "aaa", equalThenActive: false)]
+    //public List<string> strControlledData2;
 
-    [ConditionalDisableInInspector("flagFloat", 1f)]
-    public float floatControlledData1;
+
+    //public int flagInt = 1;
+
+    //[ConditionalDisableInInspector("flagInt", 1)]
+    //public int intControlledData = 2;
+
+    //public enum FlagEnum { A = 0, B = 1, C = 2}
+    //public FlagEnum flagEnum = FlagEnum.A;
+
+    //[ConditionalDisableInInspector("flagEnum", (int)FlagEnum.A)]
+    //public int enumControlledDataA = 2;
+
+    //[ConditionalDisableInInspector("flagEnum", (int)FlagEnum.B, conditionalInvisible: true)]
+    //public int enumControlledDataB = 2;
+
+
+    //public float flagFloat = 1.0f;
+
+    //[ConditionalDisableInInspector("flagFloat", 0f)]
+    //public float floatControlledData0;
+    //[ConditionalDisableInInspector("flagFloat", 0f, greaterThanComparedThenActive: false)]
+    //public float floatControlledData0LessThan;
+
+    //[ConditionalDisableInInspector("flagFloat", 10f)]
+    //public float floatControlledData10;
+
+    //[ConditionalDisableInInspector("flagFloat", 1f)]
+    //public float floatControlledData1;
 
 }

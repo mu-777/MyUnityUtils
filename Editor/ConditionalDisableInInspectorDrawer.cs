@@ -10,6 +10,9 @@ internal sealed class FlagConditionalDisableDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
+        //Debug.Log($"SerializedPropertyType: {property.propertyType}, " +
+        //          $"label: {label.text}");
+
         var attr = base.attribute as FlagConditionalDisableInInspectorAttribute;
         var prop = property.serializedObject.FindProperty(attr.FlagVariableName);
         if(prop == null)
@@ -18,14 +21,30 @@ internal sealed class FlagConditionalDisableDrawer : PropertyDrawer
             EditorGUI.PropertyField(position, property, label);
             EditorGUI.EndDisabledGroup();
         }
-        var isDisable = attr.FalseThenDisable ? !prop.boolValue : prop.boolValue;
+        var isDisable = IsDisable(attr, prop);
         if(attr.ConditionalInvisible && isDisable)
         {
             return;
         }
         EditorGUI.BeginDisabledGroup(isDisable);
-        EditorGUI.PropertyField(position, property, label);
+        EditorGUI.PropertyField(position, property, label, true);
         EditorGUI.EndDisabledGroup();
+    }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        var attr = base.attribute as FlagConditionalDisableInInspectorAttribute;
+        var prop = property.serializedObject.FindProperty(attr.FlagVariableName);
+        if(attr.ConditionalInvisible && IsDisable(attr, prop))
+        {
+            return -EditorGUIUtility.standardVerticalSpacing;
+        }
+        return EditorGUI.GetPropertyHeight(property, true);
+    }
+
+    private bool IsDisable(FlagConditionalDisableInInspectorAttribute attr, SerializedProperty prop)
+    {
+        return attr.FalseThenDisable ? !prop.boolValue : prop.boolValue;
     }
 }
 
@@ -39,16 +58,10 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         if(condProp == null)
         {
             Debug.LogError($"Not found '{attr.VariableName}' property");
-            EditorGUI.PropertyField(position, property, label);
-        }
-        GetCondFunc disableCondFunc;
-        if(!DisableCondFuncMap.TryGetValue(attr.VariableType, out disableCondFunc))
-        {
-            Debug.LogError($"{attr.VariableType} type is not supported");
-            EditorGUI.PropertyField(position, property, label);
+            EditorGUI.PropertyField(position, property, label, true);
         }
 
-        var isDisable = disableCondFunc(condProp, attr);
+        var isDisable = IsDisable(attr, condProp);
         if(attr.ConditionalInvisible && isDisable)
         {
             return;
@@ -57,6 +70,29 @@ internal sealed class ConditionalDisableDrawer : PropertyDrawer
         EditorGUI.PropertyField(position, property, label);
         EditorGUI.EndDisabledGroup();
     }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        var attr = base.attribute as ConditionalDisableInInspectorAttribute;
+        var prop = property.serializedObject.FindProperty(attr.VariableName);
+        if(attr.ConditionalInvisible && IsDisable(attr, prop))
+        {
+            return -EditorGUIUtility.standardVerticalSpacing;
+        }
+        return base.GetPropertyHeight(property, label);
+    }
+
+    private bool IsDisable(ConditionalDisableInInspectorAttribute attr, SerializedProperty prop)
+    {
+        GetCondFunc disableCondFunc;
+        if(!DisableCondFuncMap.TryGetValue(attr.VariableType, out disableCondFunc))
+        {
+            Debug.LogError($"{attr.VariableType} type is not supported");
+            return false;
+        }
+        return disableCondFunc(prop, attr);
+    }
+
 
     private Dictionary<Type, GetCondFunc> DisableCondFuncMap = new Dictionary<Type, GetCondFunc>()
     {
